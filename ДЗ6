@@ -1,0 +1,71 @@
+import Foundation
+
+struct Journal {
+    var name: String
+    var mark: Int
+}
+
+extension Journal: CustomStringConvertible {
+    var description : String {
+        return "Имя: \(name), Оценка: \(mark)"
+    }
+}
+struct queue <T> {
+    private var elements: [T] = []
+    public var isEmpty: Bool {
+        return elements.count == 0
+    }
+    mutating func enqueue(element: T) {
+        elements.append(element)
+    }
+    mutating func dequeue() -> T {
+        return elements.removeLast()
+    }
+    public var head: T? {
+        if isEmpty {
+            print("Пусто :(")
+            return nil
+        } else {
+            print("Последний элемент: \(elements.last!)")
+            return elements.last
+        }
+    }
+    public var front: T? {
+        if isEmpty {
+            print("Пусто :(")
+            return nil
+        } else {
+            print("Первый элемент: \(elements.first!)")
+            return elements.first
+        }
+    }
+    func printMyQueue() {
+        print(elements)
+    }
+}
+extension queue {
+    func myFilter(predicate:(T) -> Bool) -> [T] {
+        var result = [T]()
+        for i in elements {
+            if predicate(i) {
+                result.append(i)
+            }
+        }
+        return result
+    }
+}
+var people = queue <Journal> ()
+people.enqueue(element: .init(name: "Саша", mark: 4))
+people.enqueue(element: .init(name: "Олег", mark: 5))
+people.enqueue(element: .init(name: "Ольга", mark: 5))
+people.enqueue(element: .init(name: "Павел", mark: 3))
+people.enqueue(element: .init(name: "Максим", mark: 4))
+people.enqueue(element: .init(name: "Лена", mark: 3))
+people.enqueue(element: .init(name: "Светлана", mark: 4))
+people.enqueue(element: .init(name: "Кира", mark: 3))
+people.printMyQueue()
+people.head
+people.front
+
+let markFilter = people.myFilter(predicate: {$0.mark == 3})
+print(markFilter)
